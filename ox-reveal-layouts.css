@@ -1,0 +1,28 @@
+/* ox-reveal-layouts.css */
+
+/* Grid 4 Container */
+.orf-grid-4 {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two columns */
+    grid-template-rows: auto auto;
+    gap: 20px; /* Gap between images */
+    align-items: center;
+    justify-items: center;
+    width: 100%;
+}
+
+/* Individual cell */
+.orf-grid-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 0.8em; /* Smaller text for identifiers a/b/c/d */
+}
+
+/* Images in grid */
+.orf-grid-item img {
+    max-height: 300px; /* Later add adjust option? */
+    width: auto;
+    margin: 0 !important; /* Just caution */
+    box-shadow: none !important;
+}
