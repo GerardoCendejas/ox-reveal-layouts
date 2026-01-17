@@ -39,9 +39,65 @@
   (expand-file-name "ox-reveal-layouts.css" (file-name-directory (or load-file-name buffer-file-name)))
   "Route to the CSS file with the layout definitions.")
 
+(defgroup ox-reveal-layouts nil
+  "Options for ox-reveal-layouts."
+  :group 'org-export)
+
+(defcustom ox-reveal-layouts-reveal-root-path "https://cdn.jsdelivr.net/npm/reveal.js"
+  "Path to the reveal.js library."
+  :type 'string
+  :group 'ox-reveal-layouts)
+
+(defcustom ox-reveal-layouts-title-slide-template nil
+  "Path to a custom HTML template for the title slide."
+  :type '(choice (const :tag "Default" nil)
+                 (string :tag "Custom HTML"))
+  :group 'ox-reveal-layouts)
+
 ;;; 2. Functions to Insert Layouts
 
-(defun orl-insert-grid-4 ()
+(defun ox-reveal-layouts-setup-css ()
+  "Insert the CSS link for ox-reveal layouts at the beginning of the document."
+  (interactive)
+  ;; Moves to the beginning of the buffer to insert the CSS link
+  (save-excursion 
+    (goto-char (point-min))
+    ;; Insert the CSS link
+    (insert (format "#+REVEAL_EXTRA_CSS: %s\n" ox-reveal-layouts-css-path))
+    (message "¡CSS link added! Reload reveal to see changes.")))
+
+(defun ox-reveal-layouts-init-presentation ()
+  "Insert a basic ox-reveal presentation header with user info and date."
+  (interactive)
+  (let ((title-template (if ox-reveal-layouts-title-slide-template
+                            (format "#+REVEAL_TITLE_SLIDE_TEMPLATE: %s\n" ox-reveal-layouts-title-slide-template)
+                          ""))) ;; If no template, leave empty
+    
+    (insert 
+     (format 
+      "#+TITLE: 
+#+AUTHOR: %s
+#+DATE: %s
+#+OPTIONS: toc:nil num:nil ^:{}
+#+REVEAL_ROOT: %s
+#+REVEAL_THEME: white
+#+REVEAL_TRANS: fade
+#+REVEAL_EXTRA_CSS: %s
+%s
+* First Slide
+
+"
+      user-full-name            ; Your full name (from Emacs)
+      (format-time-string "%Y-%m-%d") ; Today's date
+      ox-reveal-layouts-reveal-root-path      ; The path to reveal.js
+      ox-reveal-layouts-css-path ; The CSS file path
+      title-template))          ; The title slide template if any
+
+    ;; Move cursor to the title line for easy editing
+    (goto-char (point-min))
+    (search-forward "#+TITLE: " nil t)))
+
+(defun ox-reveal-layouts-insert-grid-4 ()
   "Insert a 4-image grid layout quickly with placeholder images."
   (interactive)
   (let* ((path-a (file-relative-name (read-file-name "Choose Image A (Top-Left): ")))
@@ -79,11 +135,14 @@
 ;; Defining the transient menu for layout insertion
 (transient-define-prefix ox-reveal-layouts-menu ()
   "Main menu for layouts."
-  ["Quick Insert Layouts"
-   ("g" "Grid 4 Images" orl-insert-grid-4)]
-  
-  ["CSS Management"
-   ("i" "Inicializar CSS en buffer" (lambda () (interactive) (message "CSS inyectado (TODO)")))]
+  ;; Menu structure
+  ["Project Setup"
+   ("n" "New Presentation Template" ox-reveal-layouts-init-presentation)
+   ("i" "Inject CSS only" ox-reveal-layouts-setup-css)]
+
+  ;; Add layout options here
+  ["Layouts"
+   ("g" "Grid 4 Images" ox-reveal-layouts-insert-grid-4)]
   
   ["Help & Exit"
    ("q" "Exit" transient-quit-one)])
