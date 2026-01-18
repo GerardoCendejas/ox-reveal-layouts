@@ -45,6 +45,12 @@
     min-width: 0;
 }
 
+.orf-layout-2-cols .orf-img-fit {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; 
+}
+
 /* 4 Images Grid Layout */
 .orf-layout-grid-4 {
     display: grid;

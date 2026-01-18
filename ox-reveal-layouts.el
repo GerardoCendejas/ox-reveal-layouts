@@ -117,6 +117,62 @@
 #+END_EXPORT\n"
       path-a path-b))))
 
+(defun ox-reveal-layouts-insert-split-text-right ()
+  "Insert a layout with text on the left and an image on the right. Allows for text input on the left side."
+  (interactive)
+  (let ((path-img (file-relative-name (read-file-name "Choose Image Right: "))))
+    (insert
+     (format
+      "#+BEGIN_EXPORT html
+
+<div class=\"orf-slide-container\">
+  <div class=\"orf-layout-2-cols\">
+    <div class=\"orf-text-container\">
+
+#+END_EXPORT
+
+# Write your text here
+
+#+BEGIN_EXPORT html
+
+    </div>
+    <img src=\"%s\" class=\"orf-img-fit\">
+  </div>
+</div>
+
+#+END_EXPORT\n"
+      path-img))
+    ;; Position cursor for text input
+    (search-backward "# Write your text here")))
+
+(defun ox-reveal-layouts-insert-split-text-left ()
+  "Insert a layout with text on the left and an image on the left. Allows for text input on the left side."
+  (interactive)
+  (let ((path-img (file-relative-name (read-file-name "Choose Image Left: "))))
+    (insert
+     (format
+      "#+BEGIN_EXPORT html
+
+<div class=\"orf-slide-container\">
+  <div class=\"orf-layout-2-cols\">
+    <img src=\"%s\" class=\"orf-img-fit\">
+    <div class=\"orf-text-container\">
+
+#+END_EXPORT
+
+# Write your text here
+
+#+BEGIN_EXPORT html
+
+    </div>
+  </div>
+</div>
+
+#+END_EXPORT\n"
+      path-img))
+    ;; Position cursor for text input
+    (search-backward "# Write your text here")))
+
 (defun ox-reveal-layouts-insert-grid-4 ()
   "Insert a 2x2 grid layout with four images."
   (interactive)
@@ -155,9 +211,13 @@
    ("i" "Inject CSS only" ox-reveal-layouts-setup-css)]
 
   ;; Add layout options here
-  ["Layouts"
+  ["Image Layouts"
    ("g" "Grid 4 Images" ox-reveal-layouts-insert-grid-4)
    ("s" "Side-by-Side Images" ox-reveal-layouts-insert-side-by-side)]
+
+  ["Text & Image Layouts"
+   ("l" "Text Left, Image Right" ox-reveal-layouts-insert-split-text-left)
+   ("r" "Image Left, Text Right" ox-reveal-layouts-insert-split-text-right)]
   
   ["Help & Exit"
    ("q" "Exit" transient-quit-one)])
