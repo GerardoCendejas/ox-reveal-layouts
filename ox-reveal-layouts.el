@@ -98,30 +98,27 @@
     (search-forward "#+TITLE: " nil t)))
 
 (defun ox-reveal-layouts-insert-side-by-side ()
-  "Insert a side-by-side layout with two images."
+  "Insert a side-by-side layout with two images using a fixed container."
   (interactive)
-  (let* ((path-a (file-relative-name (read-file-name "Choose Image A (Left): ")))
-	 (path-b (file-relative-name (read-file-name "Choose Image B (Right): "))))
+  (let* ((path-a (file-relative-name (read-file-name "Choose Image Left: ")))
+         (path-b (file-relative-name (read-file-name "Choose Image Right: "))))
     
     (insert
      (format
       "#+BEGIN_EXPORT html
 
-<div class=\"orf-grid-4\">
-  <div class=\"orf-grid-item\">
-    <img src=\"%s\">
-  </div>
-  <div class=\"orf-grid-item\">
-    <img src=\"%s\">
+<div class=\"orf-slide-container\">
+  <div class=\"orf-layout-2-cols\">
+    <img src=\"%s\" class=\"orf-img-fit\">
+    <img src=\"%s\" class=\"orf-img-fit\">
   </div>
 </div>
 
 #+END_EXPORT\n"
-      path-a path-b)))
-  )
+      path-a path-b))))
 
 (defun ox-reveal-layouts-insert-grid-4 ()
-  "Insert a 4-image grid layout quickly with placeholder images."
+  "Insert a 2x2 grid layout with four images."
   (interactive)
   (let* ((path-a (file-relative-name (read-file-name "Choose Image A (Top-Left): ")))
 	 (path-b (file-relative-name (read-file-name "Choose Image B (Top-Right): ")))
@@ -132,18 +129,12 @@
      (format
       "#+BEGIN_EXPORT html
 
-<div class=\"orf-grid-4\">
-  <div class=\"orf-grid-item\">
-    <img src=\"%s\">
-  </div>
-  <div class=\"orf-grid-item\">
-    <img src=\"%s\">
-  </div>
-  <div class=\"orf-grid-item\">
-    <img src=\"%s\">
-  </div>
-  <div class=\"orf-grid-item\">
-    <img src=\"%s\">
+<div class=\"orf-slide-container\">
+  <div class=\"orf-layout-grid-4\">
+    <img src=\"%s\" class=\"orf-img-fit\">
+    <img src=\"%s\" class=\"orf-img-fit\">
+    <img src=\"%s\" class=\"orf-img-fit\">
+    <img src=\"%s\" class=\"orf-img-fit\">
   </div>
 </div>
 
