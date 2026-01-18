@@ -60,7 +60,7 @@
   "Insert the CSS link for ox-reveal layouts at the beginning of the document."
   (interactive)
   ;; Moves to the beginning of the buffer to insert the CSS link
-  (save-excursion 
+  (save-excursion
     (goto-char (point-min))
     ;; Insert the CSS link
     (insert (format "#+REVEAL_EXTRA_CSS: %s\n" ox-reveal-layouts-css-path))
@@ -73,9 +73,9 @@
                             (format "#+REVEAL_TITLE_SLIDE_TEMPLATE: %s\n" ox-reveal-layouts-title-slide-template)
                           ""))) ;; If no template, leave empty
     
-    (insert 
-     (format 
-      "#+TITLE: 
+    (insert
+     (format
+      "#+TITLE:
 #+AUTHOR: %s
 #+DATE: %s
 #+OPTIONS: toc:nil num:nil ^:{}
@@ -110,16 +110,16 @@
       "#+BEGIN_EXPORT html
 <div class=\"orf-grid-4\">
   <div class=\"orf-grid-item\">
-    <img src=\"%s\" alt=\"Image A\">
+    <img src=\"%s\">
   </div>
   <div class=\"orf-grid-item\">
-    <img src=\"%s\" alt=\"Image B\">
+    <img src=\"%s\">
   </div>
   <div class=\"orf-grid-item\">
-    <img src=\"%s\" alt=\"Image C\">
+    <img src=\"%s\">
   </div>
   <div class=\"orf-grid-item\">
-    <img src=\"%s\" alt=\"Image D\">
+    <img src=\"%s\">
   </div>
 </div>
 #+END_EXPORT\n"
