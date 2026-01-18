@@ -110,19 +110,15 @@
       "#+BEGIN_EXPORT html
 <div class=\"orf-grid-4\">
   <div class=\"orf-grid-item\">
-    <span>a)</span>
     <img src=\"%s\" alt=\"Image A\">
   </div>
   <div class=\"orf-grid-item\">
-    <span>b)</span>
     <img src=\"%s\" alt=\"Image B\">
   </div>
   <div class=\"orf-grid-item\">
-    <span>c)</span>
     <img src=\"%s\" alt=\"Image C\">
   </div>
   <div class=\"orf-grid-item\">
-    <span>d)</span>
     <img src=\"%s\" alt=\"Image D\">
   </div>
 </div>
