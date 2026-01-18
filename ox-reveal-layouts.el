@@ -97,6 +97,29 @@
     (goto-char (point-min))
     (search-forward "#+TITLE: " nil t)))
 
+(defun ox-reveal-layouts-insert-side-by-side ()
+  "Insert a side-by-side layout with two images."
+  (interactive)
+  (let* ((path-a (file-relative-name (read-file-name "Choose Image A (Left): ")))
+	 (path-b (file-relative-name (read-file-name "Choose Image B (Right): "))))
+    
+    (insert
+     (format
+      "#+BEGIN_EXPORT html
+
+<div class=\"orf-grid-4\">
+  <div class=\"orf-grid-item\">
+    <img src=\"%s\">
+  </div>
+  <div class=\"orf-grid-item\">
+    <img src=\"%s\">
+  </div>
+</div>
+
+#+END_EXPORT\n"
+      path-a path-b)))
+  )
+
 (defun ox-reveal-layouts-insert-grid-4 ()
   "Insert a 4-image grid layout quickly with placeholder images."
   (interactive)
@@ -108,6 +131,7 @@
     (insert
      (format
       "#+BEGIN_EXPORT html
+
 <div class=\"orf-grid-4\">
   <div class=\"orf-grid-item\">
     <img src=\"%s\">
@@ -122,9 +146,12 @@
     <img src=\"%s\">
   </div>
 </div>
+
 #+END_EXPORT\n"
       path-a path-b path-c path-d)))
   )
+
+
 
 ;;; 3. Transient Menu Definition
 
@@ -138,7 +165,8 @@
 
   ;; Add layout options here
   ["Layouts"
-   ("g" "Grid 4 Images" ox-reveal-layouts-insert-grid-4)]
+   ("g" "Grid 4 Images" ox-reveal-layouts-insert-grid-4)
+   ("s" "Side-by-Side Images" ox-reveal-layouts-insert-side-by-side)]
   
   ["Help & Exit"
    ("q" "Exit" transient-quit-one)])
