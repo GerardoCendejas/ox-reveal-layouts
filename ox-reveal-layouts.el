@@ -237,15 +237,27 @@ Optional argument ARGS Transient arguments."
     ;; Position cursor for text input
     (search-backward "# Write your text here")))
 
-
-
-(defun ox-reveal-layouts-insert-grid-4 ()
-  "Insert a 2x2 grid layout with four images."
-  (interactive)
-  (let* ((path-a (file-relative-name (read-file-name "Choose Image A (Top-Left): ")))
-	 (path-b (file-relative-name (read-file-name "Choose Image B (Top-Right): ")))
-	 (path-c (file-relative-name (read-file-name "Choose Image C (Bottom-Left): ")))
-	 (path-d (file-relative-name (read-file-name "Choose Image D (Bottom-Right): "))))
+(defun ox-reveal-layouts-insert-grid-4 (&optional args)
+  "Insert a 2x2 grid layout with four images. Supports --caption."
+  (interactive (list (transient-args 'ox-reveal-layouts-menu)))
+  
+  (let* ((use-caption (member "--caption" args))
+         
+         ;; First Block: Ask for Image and then Caption
+         (path-a (file-relative-name (read-file-name "Choose Image (Top-Left): ")))
+         (cap-a (if use-caption (read-string "Caption (Top-Left): ") nil))
+         
+         ;; Second Block: Ask for Image and then Caption
+         (path-b (file-relative-name (read-file-name "Choose Image (Top-Right): ")))
+         (cap-b (if use-caption (read-string "Caption (Top-Right): ") nil))
+         
+         ;; Third Block: Ask for Image and then Caption
+         (path-c (file-relative-name (read-file-name "Choose Image (Bottom-Left): ")))
+         (cap-c (if use-caption (read-string "Caption (Bottom-Left): ") nil))
+         
+         ;; Fourth Block: Ask for Image and then Caption
+         (path-d (file-relative-name (read-file-name "Choose Image (Bottom-Right): ")))
+         (cap-d (if use-caption (read-string "Caption (Bottom-Right): ") nil)))
     
     (insert
      (format
@@ -253,16 +265,37 @@ Optional argument ARGS Transient arguments."
 
 <div class=\"orf-slide-container\">
   <div class=\"orf-layout-grid-4\">
-    <img src=\"%s\" class=\"orf-img-fit\">
-    <img src=\"%s\" class=\"orf-img-fit\">
-    <img src=\"%s\" class=\"orf-img-fit\">
-    <img src=\"%s\" class=\"orf-img-fit\">
+  
+    <figure class=\"orf-figure\">
+      <img src=\"%s\">
+      %s
+    </figure>
+    
+    <figure class=\"orf-figure\">
+      <img src=\"%s\">
+      %s
+    </figure>
+    
+    <figure class=\"orf-figure\">
+      <img src=\"%s\">
+      %s
+    </figure>
+    
+    <figure class=\"orf-figure\">
+      <img src=\"%s\">
+      %s
+    </figure>
+
   </div>
 </div>
 
 #+END_EXPORT\n"
-      path-a path-b path-c path-d)))
-  )
+      ;; Fill in the values
+      path-a (if (and cap-a (not (string-empty-p cap-a))) (format "<figcaption>%s</figcaption>" cap-a) "")
+      path-b (if (and cap-b (not (string-empty-p cap-b))) (format "<figcaption>%s</figcaption>" cap-b) "")
+      path-c (if (and cap-c (not (string-empty-p cap-c))) (format "<figcaption>%s</figcaption>" cap-c) "")
+      path-d (if (and cap-d (not (string-empty-p cap-d))) (format "<figcaption>%s</figcaption>" cap-d) "")
+      ))))
 
 ;;; Vertical Layouts
 
