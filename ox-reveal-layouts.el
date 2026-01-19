@@ -198,9 +198,63 @@
       path-a path-b path-c path-d)))
   )
 
+;;; Pin Insertion Functions
 
+(defun org-reveal-layouts-insert-pin-html (img-path class-or-style &optional is-custom)
+  "Inserts an HTML pin with given image path and class or style."
+  (let ((style-attr (if is-custom (format "style=\"%s\"" class-or-style) "")))
+    (insert 
+     (format 
+      "\n#+BEGIN_EXPORT html
+
+<img src=\"%s\" class=\"orf-pin %s\" %s>
+
+#+END_EXPORT\n"
+      img-path
+      (if is-custom "" class-or-style) ; Use class if not custom
+      style-attr))))
+
+(defun org-reveal-layouts-insert-pin-preset (css-class)
+  "Inserts a pin using a preset CSS class for positioning."
+  (let ((path (file-relative-name (read-file-name "Choose Image (Pin): "))))
+    (org-reveal-layouts-insert-pin-html path css-class nil)))
+
+(defun org-reveal-layouts-insert-pin-custom ()
+  "Inserts a pin asking for Top and Left percentages (0-100)."
+  (interactive)
+  (let* ((path (file-relative-name (read-file-name "Choose Image (Pin): ")))
+         ;; 1. We ask for the coordinates
+         (top (read-number "Top Position % (0-100): "))
+         (left (read-number "Left Position % (0-100): "))
+         ;; 2. Format them into a style string
+         ;; Example: "top: 20%; left: 30%;"
+         (coords (format "top: %s%%; left: %s%%;" top left)))
+    
+    ;; 3. Insert the pin with custom styles
+    (org-reveal-layouts-insert-pin-html path coords t)))
+
+;; Interactive functions for preset pin positions
+(defun org-reveal-layouts-pin-tl () (interactive) (org-reveal-layouts-insert-pin-preset "orf-pos-tl"))
+(defun org-reveal-layouts-pin-tr () (interactive) (org-reveal-layouts-insert-pin-preset "orf-pos-tr"))
+(defun org-reveal-layouts-pin-bl () (interactive) (org-reveal-layouts-insert-pin-preset "orf-pos-bl"))
+(defun org-reveal-layouts-pin-br () (interactive) (org-reveal-layouts-insert-pin-preset "orf-pos-br"))
 
 ;;; 3. Transient Menu Definition
+
+;; Defining the transient menu for pin positioning
+(transient-define-prefix ox-reveal-layouts-pin-menu ()
+  "Pin positioning menu."
+  ["Preset Positions"
+   ("q" "Top Left ↖" org-reveal-layouts-pin-tl)
+   ("w" "Top Right ↗" org-reveal-layouts-pin-tr)
+   ("a" "Bottom Left ↙" org-reveal-layouts-pin-bl)
+   ("s" "Bottom Right ↘" org-reveal-layouts-pin-br)]
+  
+  ["Manual Positioning"
+   ("c" "Custom Coordinates" org-reveal-layouts-insert-pin-custom)]
+  
+  ["Back"
+   ("g" "Back to main manu" ox-reveal-layouts-menu)])
 
 ;; Defining the transient menu for layout insertion
 (transient-define-prefix ox-reveal-layouts-menu ()
@@ -213,11 +267,12 @@
   ;; Add layout options here
   ["Image Layouts"
    ("g" "Grid 4 Images" ox-reveal-layouts-insert-grid-4)
-   ("s" "Side-by-Side Images" ox-reveal-layouts-insert-side-by-side)]
+   ("s" "Side-by-Side Images" ox-reveal-layouts-insert-side-by-side)
+   ("r" "Image Right, Text Left" ox-reveal-layouts-insert-split-text-left)
+   ("l" "Image Left, Text Right" ox-reveal-layouts-insert-split-text-right)]
 
-  ["Text & Image Layouts"
-   ("l" "Text Left, Image Right" ox-reveal-layouts-insert-split-text-left)
-   ("r" "Image Left, Text Right" ox-reveal-layouts-insert-split-text-right)]
+  ["Extras"
+   ("p" "Pins" ox-reveal-layouts-pin-menu)]
   
   ["Help & Exit"
    ("q" "Exit" transient-quit-one)])

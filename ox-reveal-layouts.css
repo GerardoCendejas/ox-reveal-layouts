@@ -89,3 +89,28 @@
     justify-content: center; /* Center text vertically */
     height: 100%;
 }
+
+/* Pin Styles */
+.orf-pin {
+    position: absolute !important;
+    z-index: 50; /* Over other content */
+    
+    /* Fixed size for pins */
+    width: 150px !important;  /* Initial width */
+    height: auto !important;  /* Height adjusts based on content */
+    
+    /* Remove any default styling */
+    max-width: none !important; 
+    max-height: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
+}
+
+/* Pin Positions */
+.orf-pos-tl { top: 0px; left: 0px; }
+.orf-pos-tr { top: 0px; right: 0px; }
+.orf-pos-bl { bottom: 0px; left: 0px; }
+.orf-pos-br { bottom: 0px; right: 0px; }
