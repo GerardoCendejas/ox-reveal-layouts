@@ -500,23 +500,24 @@ Leaves cursor inside for manual typing or org-cite insertion."
 ;; Defining the transient menu for pin positioning
 (transient-define-prefix ox-reveal-layouts-pin-menu ()
   "Pin positioning menu."
-  ["Preset Positions"
-   ("q" "Top Left ↖" org-reveal-layouts-pin-tl)
-   ("w" "Top Right ↗" org-reveal-layouts-pin-tr)
-   ("a" "Bottom Left ↙" org-reveal-layouts-pin-bl)
-   ("s" "Bottom Right ↘" org-reveal-layouts-pin-br)]
-  
-  ["Manual Positioning"
-   ("c" "Custom Coordinates" org-reveal-layouts-insert-pin-custom)]
-  
-  ["Back"
-   ("g" "Back to main manu" ox-reveal-layouts-menu)])
+  [:description "Stickers & Floating Elements"
+		["Preset Positions"
+		 ("q" "Top Left ↖" org-reveal-layouts-pin-tl)
+		 ("w" "Top Right ↗" org-reveal-layouts-pin-tr)
+		 ("a" "Bottom Left ↙" org-reveal-layouts-pin-bl)
+		 ("s" "Bottom Right ↘" org-reveal-layouts-pin-br)]
+		
+		["Manual Positioning"
+		 ("c" "Custom Coordinates" org-reveal-layouts-insert-pin-custom)]
+		
+		["Back"
+		 ("g" "Back to main menu" ox-reveal-layouts-menu)]])
 
 ;; Defining the transient menu for layout insertion
 (transient-define-prefix ox-reveal-layouts-menu ()
   "Main menu for layouts."
   ;; -- MAIN HORIZONTAL BLOCK (These groups will appear side-by-side) --
-  [
+  [:description "Ox-Reveal-Layouts Main Menu"
    ;; COLUMN 1: Setup & Extras (Grouped to save space) Transient arguments.
    ["Setup & Tools"
     ("n" "New Template" ox-reveal-layouts-init-presentation)
