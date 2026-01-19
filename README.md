@@ -39,7 +39,7 @@ If you have ever tried to put 4 images in a grid or place text next to an image 
 #### 1. Clone the repo
 
 ```bash
-git clone [https://github.com/GerardoCendejas/ox-reveal-layouts.git](https://github.com/GerardoCendejas/ox-reveal-layouts.git)
+git clone https://github.com/GerardoCendejas/ox-reveal-layouts.git
 ```
 
 ### 2. Emacs config (use-package)
@@ -48,7 +48,7 @@ Add this to your `init.el` or Emacs config file:
 
 ```elisp
 (use-package ox-reveal-layouts
-  :load-path "~/.emacs.d/lisp/ox-reveal-layouts/" ; Point to where you cloned it
+  :load-path "~/path/to/ox-reveal-layouts/" ; Point to where you cloned it
   :after (ox-reveal)
   :bind (("C-c r l" . ox-reveal-layouts-menu))    ; Recommended binding
   :config
@@ -94,7 +94,7 @@ You can add citations as footnotes for the slides with `c` in the menu. This wil
 
 ### --caption Support
 
-When inserting images, you can add captions by using the `-c`/`--caption` flag before inserting a layout th images. This will render a caption below the image in the slide.
+When inserting images, you can add captions by using the `-c`/`--caption` flag before inserting a layout with images. This will render a caption below the image in the slide.
 
 ![ox-reveal-layouts features](media/features.gif)
 
