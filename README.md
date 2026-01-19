@@ -84,6 +84,8 @@ Floating Images:
 
 - Pins/Stickers (`p`): Insert images that float over the slide content. You can specify position (Top-Left, Top-Right, Bottom-Left, Bottom-Right or custom).
 
+![ox-reveal-layouts side-by-side](media/side-by-side.gif)
+
 ## Features ✨
 
 ### Citations and Footnotes
@@ -93,6 +95,8 @@ You can add citations as footnotes for the slides with `c` in the menu. This wil
 ### --caption Support
 
 When inserting images, you can add captions by using the `-c`/`--caption` flag before inserting a layout th images. This will render a caption below the image in the slide.
+
+![ox-reveal-layouts features](media/features.gif)
 
 ### Key Features
 
