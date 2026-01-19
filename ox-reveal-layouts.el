@@ -97,11 +97,21 @@
     (goto-char (point-min))
     (search-forward "#+TITLE: " nil t)))
 
-(defun ox-reveal-layouts-insert-side-by-side ()
-  "Insert a side-by-side layout with two images using a fixed container."
-  (interactive)
-  (let* ((path-a (file-relative-name (read-file-name "Choose Image Left: ")))
-         (path-b (file-relative-name (read-file-name "Choose Image Right: "))))
+(defun ox-reveal-layouts-insert-side-by-side (&optional args)
+  "Insert a side-by-side layout.  Asks for Image+Caption pairs sequentially.
+Optional argument ARGS"
+  (interactive (list (transient-args 'ox-reveal-layouts-menu)))
+  
+  (let* (;; Detect if --caption flag is present
+         (use-caption (member "--caption" args))
+         
+         ;; First Block: Ask for Image and then Caption
+         (path-a (file-relative-name (read-file-name "Choose Image Left: ")))
+         (cap-a (if use-caption (read-string "Caption Left: ") nil))
+         
+         ;; Second Block: Ask for Image and then Caption
+         (path-b (file-relative-name (read-file-name "Choose Image Right: ")))
+         (cap-b (if use-caption (read-string "Caption Right: ") nil)))
     
     (insert
      (format
@@ -109,13 +119,30 @@
 
 <div class=\"orf-slide-container\">
   <div class=\"orf-layout-2-cols\">
-    <img src=\"%s\" class=\"orf-img-fit\">
-    <img src=\"%s\" class=\"orf-img-fit\">
+  
+    <figure class=\"orf-figure\">
+      <img src=\"%s\">
+      %s
+    </figure>
+
+    <figure class=\"orf-figure\">
+      <img src=\"%s\">
+      %s
+    </figure>
+
   </div>
 </div>
 
 #+END_EXPORT\n"
-      path-a path-b))))
+      ;; Fill in the values
+      path-a
+      (if (and cap-a (not (string-empty-p cap-a)))
+          (format "<figcaption>%s</figcaption>" cap-a) "")
+      
+      path-b
+      (if (and cap-b (not (string-empty-p cap-b)))
+          (format "<figcaption>%s</figcaption>" cap-b) "")
+      ))))
 
 (defun ox-reveal-layouts-insert-split-text-right ()
   "Insert a layout with text on the left and an image on the right.  Allow for text input on the left side."
@@ -201,14 +228,15 @@
 ;;; Vertical Layouts
 
 (defun ox-reveal-layouts-insert-image-centered (&optional args)
-  "Insert a layout with a centered image. Supports optional --caption switch."
+  "Insert a layout with a centered image.  Supports optional --caption switch.
+Optional argument ARGS Tansient arguments."
   (interactive (list (transient-args 'ox-reveal-layouts-menu)))
   
   (let* ((path (file-relative-name (read-file-name "Choose Image: ")))
          ;; Detect if --caption flag is present
          (use-caption (member "--caption" args))
          ;; If caption is to be used, ask for caption text
-         (caption-text (if use-caption (read-string "Caption text: ") nil)))
+         (caption-text (if use-caption (read-string "Caption: ") nil)))
     
     (insert
      (format
@@ -222,7 +250,7 @@
 #+END_EXPORT\n"
       path
       ;; Insert caption if provided
-      (if caption-text 
+      (if caption-text
           (format "<figcaption>%s</figcaption>" caption-text)
         "")
       ))))
@@ -346,7 +374,7 @@ Leaves cursor inside for manual typing or org-cite insertion."
   "Main menu for layouts."
   ;; -- MAIN HORIZONTAL BLOCK (These groups will appear side-by-side) --
   [
-   ;; COLUMN 1: Setup & Extras (Grouped to save space)
+   ;; COLUMN 1: Setup & Extras (Grouped to save space) Transient arguments.
    ["Setup & Tools"
     ("n" "New Template" ox-reveal-layouts-init-presentation)
     ("m" "Inject CSS" ox-reveal-layouts-setup-css)]
