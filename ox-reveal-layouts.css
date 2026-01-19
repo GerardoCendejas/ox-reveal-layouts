@@ -28,6 +28,11 @@
     
     flex: 1;       /* Allow to grow and fill available space */
     width: 100%;
+    height: 90%;
+
+    padding-bottom: 10px; /* Space for citations */
+    box-sizing: border-box; /* Include padding in height calculation */
+    
     min-height: 0;
     align-items: center; /* Center content vertically */
     justify-content: center;
