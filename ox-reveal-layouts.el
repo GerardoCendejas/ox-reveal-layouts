@@ -200,20 +200,33 @@
 
 ;;; Vertical Layouts
 
-(defun ox-reveal-layouts-insert-image-centered ()
+(defun ox-reveal-layouts-insert-image-centered (&optional args)
   "Insert a layout with a centered image."
-  (interactive)
-  (let ((path (file-relative-name (read-file-name "Choose Image: "))))
+  (interactive (list (transient-args 'ox-reveal-layouts-menu)))
+  (let* ((path (file-relative-name (read-file-name "Choose Image: ")))
+         ;; Detect if --caption flag is present
+         (use-caption (member "--caption" args))
+         ;; If caption is to be used, ask for caption text
+         (caption-text (if use-caption (read-string "Caption text: ") nil)))
+    
     (insert
      (format
       "#+BEGIN_EXPORT html
 
 <div class=\"orf-slide-container\">
-  <img src=\"%s\" class=\"orf-img-fit\">
+  <figure style=\"margin: 0; width: 100%%; display: flex; flex-direction: column; align-items: center;\">
+    <img src=\"%s\" class=\"orf-img-fit\">
+    %s
+  </figure>
 </div>
 
 #+END_EXPORT\n"
-      path))))
+      path
+      ;; Insert caption if provided
+      (if caption-text 
+          (format "<figcaption class=\"orf-img-caption\">%s</figcaption>" caption-text)
+        "")
+      ))))
 
 (defun ox-reveal-layouts-insert-text-top-img-bottom ()
   "Insert a layout with text on top and an image at the bottom."
