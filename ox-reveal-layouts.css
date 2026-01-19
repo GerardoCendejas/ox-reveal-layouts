@@ -28,9 +28,9 @@
     
     flex: 1;       /* Allow to grow and fill available space */
     width: 100%;
-    height: 90%;
+    height: 100%;
 
-    padding-bottom: 10px; /* Space for citations */
+    padding-bottom: 50px; /* Space for citations */
     box-sizing: border-box; /* Include padding in height calculation */
     
     min-height: 0;
@@ -132,7 +132,7 @@
     /* Text Styles */
     font-size: 0.5em !important; /* Smaller font size */
     color: #666;                 /* Gray color */
-    text-align: left;            /* Align left */
+    text-align: center;            /* Align left */
     
     /* Padding for readability */
     padding-left: 0px;
