@@ -39,6 +39,52 @@
     overflow: hidden;
 }
 
+/* Figure Container */
+.orf-figure {
+    display: flex;
+    flex-direction: column; /* Stack content vertically */
+    height: 100%;           /* Fill the slide container */
+    width: 100%;
+    
+    margin: 0 !important;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;       /* Prevent anything from spilling out */
+}
+
+/* The Image - Flexible Size */
+.orf-figure img {
+    /* Flex logic: 
+       1 = Grow (take available space)
+       1 = Shrink (allow shrinking if needed)
+       auto = Start from auto size */
+    flex: 1 1 auto; 
+    
+    /* CRITICAL: Allows shrinking below intrinsic height */
+    min-height: 0;  
+    
+    width: auto;
+    max-width: 100%;
+    height: auto !important; /* Override fixed height to allow flex to work */
+    max-height: 100%;
+    
+    object-fit: contain;
+    margin: 0 !important;
+    box-shadow: none !important;
+}
+
+/* Figure Caption */
+.orf-figure figcaption {
+    flex: 0 0 auto; /* Do NOT grow, do NOT shrink */
+    width: 100%;
+    
+    font-size: 0.6em !important;
+    color: #666;
+    margin-top: 10px !important;
+    font-style: italic;
+    text-align: center;
+}
+
 /* 2 Columns Layout */
 .orf-layout-2-cols {
     display: grid;
@@ -122,17 +168,6 @@
     display: flex;
     justify-content: center;
     overflow: hidden;
-}
-
-/* Caption Styles for Images */
-.orf-img-caption {
-    font-size: 0.6em !important; /* Smaller font size */
-    color: #666;                 /* Gray color */
-    margin-top: 5px !important;  /* Space above caption */
-    font-style: italic;
-    text-align: center;
-    width: 100%;
-    display: block;
 }
 
 /* Pin Styles */
