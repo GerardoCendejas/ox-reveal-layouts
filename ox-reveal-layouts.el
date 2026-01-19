@@ -238,7 +238,8 @@ Optional argument ARGS Transient arguments."
     (search-backward "# Write your text here")))
 
 (defun ox-reveal-layouts-insert-grid-4 (&optional args)
-  "Insert a 2x2 grid layout with four images. Supports --caption."
+  "Insert a 2x2 grid layout with four images.  Supports --caption.
+Optional argument ARGS Transient arguments."
   (interactive (list (transient-args 'ox-reveal-layouts-menu)))
   
   (let* ((use-caption (member "--caption" args))
@@ -325,6 +326,55 @@ Optional argument ARGS Tansient arguments."
       (if caption-text
           (format "<figcaption>%s</figcaption>" caption-text)
         "")
+      ))))
+
+(defun ox-reveal-layouts-insert-stack (&optional args)
+  "Insert a vertical stack layout (2 images) reusing the vertical layout CSS.
+Supports the --caption switch.
+Optional argument ARGS list of transient arguments."
+  (interactive (list (transient-args 'ox-reveal-layouts-menu)))
+  
+  (let* ((use-caption (member "--caption" args))
+         
+         ;; --- Top Image ---
+         (path-top (file-relative-name (read-file-name "Choose Image (Top): ")))
+         (cap-top (if use-caption (read-string "Caption (Top): ") nil))
+         
+         ;; --- Bottom Image ---
+         (path-bot (file-relative-name (read-file-name "Choose Image (Bottom): ")))
+         (cap-bot (if use-caption (read-string "Caption (Bottom): ") nil)))
+    
+    (insert
+     (format
+      "#+BEGIN_EXPORT html
+
+<div class=\"orf-slide-container\">
+  <div class=\"orf-layout-vertical\">
+  
+    <div class=\"orf-vertical-img\">
+      <figure class=\"orf-figure\">
+        <img src=\"%s\">
+        %s
+      </figure>
+    </div>
+
+    <div class=\"orf-vertical-img\">
+      <figure class=\"orf-figure\">
+        <img src=\"%s\">
+        %s
+      </figure>
+    </div>
+
+  </div>
+</div>
+
+#+END_EXPORT\n"
+      ;; Fill Top Data
+      path-top (if (and cap-top (not (string-empty-p cap-top))) 
+                   (format "<figcaption>%s</figcaption>" cap-top) "")
+      ;; Fill Bottom Data
+      path-bot (if (and cap-bot (not (string-empty-p cap-bot))) 
+                   (format "<figcaption>%s</figcaption>" cap-bot) "")
       ))))
 
 (defun ox-reveal-layouts-insert-text-top-img-bottom (&optional args)
@@ -474,8 +524,10 @@ Leaves cursor inside for manual typing or org-cite insertion."
    ;; COLUMN 2: Pure Image Layouts
    ["Image Layouts"
     ("i" "Centered Image" ox-reveal-layouts-insert-image-centered)
+    ("s" "Side-by-Side" ox-reveal-layouts-insert-side-by-side)
     ("g" "Grid 4 Images" ox-reveal-layouts-insert-grid-4)
-    ("s" "Side-by-Side" ox-reveal-layouts-insert-side-by-side)]
+    ("k" "Vertical Stack" ox-reveal-layouts-insert-stack)
+    ]
 
    ;; COLUMN 3: Text & Image Mixed
    ["Text & Image"
