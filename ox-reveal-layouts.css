@@ -114,3 +114,30 @@
 .orf-pos-tr { top: 0px; right: 0px; }
 .orf-pos-bl { bottom: 0px; left: 0px; }
 .orf-pos-br { bottom: 0px; right: 0px; }
+
+/* --- Footnotes / Citations --- */
+
+/* Citation Style */
+.orf-citation {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    
+    /* Text Styles */
+    font-size: 0.5em !important; /* Smaller font size */
+    color: #666;                 /* Gray color */
+    text-align: left;            /* Align left */
+    
+    /* Padding for readability */
+    padding-left: 0px;
+    padding-bottom: 0px;
+    
+    z-index: 10; /* Above slide content */
+}
+
+/* Citation Link Style */
+.orf-citation a {
+    color: #444 !important;
+    text-decoration: underline;
+}

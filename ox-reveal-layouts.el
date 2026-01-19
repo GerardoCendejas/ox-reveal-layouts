@@ -118,7 +118,7 @@
       path-a path-b))))
 
 (defun ox-reveal-layouts-insert-split-text-right ()
-  "Insert a layout with text on the left and an image on the right. Allows for text input on the left side."
+  "Insert a layout with text on the left and an image on the right.  Allow for text input on the left side."
   (interactive)
   (let ((path-img (file-relative-name (read-file-name "Choose Image Right: "))))
     (insert
@@ -146,7 +146,7 @@
     (search-backward "# Write your text here")))
 
 (defun ox-reveal-layouts-insert-split-text-left ()
-  "Insert a layout with text on the left and an image on the left. Allows for text input on the left side."
+  "Insert a layout with text on the left and an image on the left.  Allow for text input on the left side."
   (interactive)
   (let ((path-img (file-relative-name (read-file-name "Choose Image Left: "))))
     (insert
@@ -201,10 +201,13 @@
 ;;; Pin Insertion Functions
 
 (defun org-reveal-layouts-insert-pin-html (img-path class-or-style &optional is-custom)
-  "Inserts an HTML pin with given image path and class or style."
+  "Insert an HTML pin with given image path and class or style.
+Argument IMG-PATH path to image to insert.
+Argument CLASS-OR-STYLE CSS style.
+Optional argument IS-CUSTOM Is CSS positioning custom."
   (let ((style-attr (if is-custom (format "style=\"%s\"" class-or-style) "")))
-    (insert 
-     (format 
+    (insert
+     (format
       "\n#+BEGIN_EXPORT html
 
 <img src=\"%s\" class=\"orf-pin %s\" %s>
@@ -215,12 +218,13 @@
       style-attr))))
 
 (defun org-reveal-layouts-insert-pin-preset (css-class)
-  "Inserts a pin using a preset CSS class for positioning."
+  "Insert a pin using a preset CSS class for positioning.
+Argument CSS-CLASS CSS class for pin positioning."
   (let ((path (file-relative-name (read-file-name "Choose Image (Pin): "))))
     (org-reveal-layouts-insert-pin-html path css-class nil)))
 
 (defun org-reveal-layouts-insert-pin-custom ()
-  "Inserts a pin asking for Top and Left percentages (0-100)."
+  "Insert a pin asking for Top and Left percentages (0-100)."
   (interactive)
   (let* ((path (file-relative-name (read-file-name "Choose Image (Pin): ")))
          ;; 1. We ask for the coordinates
@@ -234,10 +238,33 @@
     (org-reveal-layouts-insert-pin-html path coords t)))
 
 ;; Interactive functions for preset pin positions
-(defun org-reveal-layouts-pin-tl () (interactive) (org-reveal-layouts-insert-pin-preset "orf-pos-tl"))
-(defun org-reveal-layouts-pin-tr () (interactive) (org-reveal-layouts-insert-pin-preset "orf-pos-tr"))
-(defun org-reveal-layouts-pin-bl () (interactive) (org-reveal-layouts-insert-pin-preset "orf-pos-bl"))
-(defun org-reveal-layouts-pin-br () (interactive) (org-reveal-layouts-insert-pin-preset "orf-pos-br"))
+(defun org-reveal-layouts-pin-tl ()
+  "INsert pin at Top-Left position."
+  (interactive) (org-reveal-layouts-insert-pin-preset "orf-pos-tl"))
+(defun org-reveal-layouts-pin-tr ()
+  "Insert pin at Top-Right position."
+  (interactive) (org-reveal-layouts-insert-pin-preset "orf-pos-tr"))
+(defun org-reveal-layouts-pin-bl ()
+  "Insert pin at Bottom-Left position."
+  (interactive) (org-reveal-layouts-insert-pin-preset "orf-pos-bl"))
+(defun org-reveal-layouts-pin-br ()
+  "Insert pin at Bottom-Right position."
+  (interactive) (org-reveal-layouts-insert-pin-preset "orf-pos-br"))
+
+;; Citation Insertion Function
+(defun org-reveal-layouts-insert-citation ()
+  "Insert a citation container at the bottom of the slide.
+Leaves cursor inside for manual typing or org-cite insertion."
+  (interactive)
+  (insert
+   "
+#+ATTR_HTML: :class orf-citation
+#+BEGIN_div
+  ")
+  ;; Position cursor for citation input
+  (let ((p (point)))
+    (insert "\n#+END_div\n")
+    (goto-char p)))
 
 ;;; 3. Transient Menu Definition
 
@@ -272,7 +299,8 @@
    ("l" "Image Left, Text Right" ox-reveal-layouts-insert-split-text-right)]
 
   ["Extras"
-   ("p" "Pins" ox-reveal-layouts-pin-menu)]
+   ("p" "Pins" ox-reveal-layouts-pin-menu)
+   ("c" "Citation / Footer" org-reveal-layouts-insert-citation)]
   
   ["Help & Exit"
    ("q" "Exit" transient-quit-one)])
