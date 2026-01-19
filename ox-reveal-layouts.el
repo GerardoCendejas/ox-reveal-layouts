@@ -99,7 +99,7 @@
 
 (defun ox-reveal-layouts-insert-side-by-side (&optional args)
   "Insert a side-by-side layout.  Asks for Image+Caption pairs sequentially.
-Optional argument ARGS"
+Optional argument ARGS Transient arguments."
   (interactive (list (transient-args 'ox-reveal-layouts-menu)))
   
   (let* (;; Detect if --caption flag is present
@@ -144,16 +144,25 @@ Optional argument ARGS"
           (format "<figcaption>%s</figcaption>" cap-b) "")
       ))))
 
-(defun ox-reveal-layouts-insert-split-text-right ()
-  "Insert a layout with text on the left and an image on the right.  Allow for text input on the left side."
-  (interactive)
-  (let ((path-img (file-relative-name (read-file-name "Choose Image Right: "))))
+(defun ox-reveal-layouts-insert-split-text-left (&optional args)
+  "Insert a layout with text on the left and an image on the right.
+Supports --caption.
+Optional argument ARGS Transient arguments."
+  (interactive (list (transient-args 'ox-reveal-layouts-menu)))
+  
+  (let* ((path-img (file-relative-name (read-file-name "Choose Image Right: ")))
+         ;; Detect if --caption flag is present
+         (use-caption (member "--caption" args))
+         ;; If caption is to be used, ask for caption text
+         (caption-text (if use-caption (read-string "Caption Right: ") nil)))
+    
     (insert
      (format
       "#+BEGIN_EXPORT html
 
 <div class=\"orf-slide-container\">
   <div class=\"orf-layout-2-cols\">
+    
     <div class=\"orf-text-container\">
 
 #+END_EXPORT
@@ -163,26 +172,49 @@ Optional argument ARGS"
 #+BEGIN_EXPORT html
 
     </div>
-    <img src=\"%s\" class=\"orf-img-fit\">
+
+    <figure class=\"orf-figure\">
+      <img src=\"%s\">
+      %s
+    </figure>
+
   </div>
 </div>
 
 #+END_EXPORT\n"
-      path-img))
+      path-img
+      ;; Insert caption if provided
+      (if (and caption-text (not (string-empty-p caption-text)))
+          (format "<figcaption>%s</figcaption>" caption-text)
+        "")))
+    
     ;; Position cursor for text input
     (search-backward "# Write your text here")))
 
-(defun ox-reveal-layouts-insert-split-text-left ()
-  "Insert a layout with text on the left and an image on the left.  Allow for text input on the left side."
-  (interactive)
-  (let ((path-img (file-relative-name (read-file-name "Choose Image Left: "))))
+(defun ox-reveal-layouts-insert-split-text-right (&optional args)
+  "Insert a layout with text on the right and an image on the left.
+Supports --caption.
+Optional argument ARGS Transient arguments."
+  (interactive (list (transient-args 'ox-reveal-layouts-menu)))
+  
+  (let* ((path-img (file-relative-name (read-file-name "Choose Image Left: ")))
+         ;; Detect if --caption flag is present
+         (use-caption (member "--caption" args))
+         ;; If caption is to be used, ask for caption text
+         (caption-text (if use-caption (read-string "Caption Left: ") nil)))
+    
     (insert
      (format
       "#+BEGIN_EXPORT html
 
 <div class=\"orf-slide-container\">
   <div class=\"orf-layout-2-cols\">
-    <img src=\"%s\" class=\"orf-img-fit\">
+
+    <figure class=\"orf-figure\">
+      <img src=\"%s\">
+      %s
+    </figure>
+
     <div class=\"orf-text-container\">
 
 #+END_EXPORT
@@ -196,9 +228,16 @@ Optional argument ARGS"
 </div>
 
 #+END_EXPORT\n"
-      path-img))
+      path-img
+      ;; Insert caption if provided
+      (if (and caption-text (not (string-empty-p caption-text)))
+          (format "<figcaption>%s</figcaption>" caption-text)
+        "")))
+    
     ;; Position cursor for text input
     (search-backward "# Write your text here")))
+
+
 
 (defun ox-reveal-layouts-insert-grid-4 ()
   "Insert a 2x2 grid layout with four images."
