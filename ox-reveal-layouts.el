@@ -95,7 +95,8 @@
 
     ;; Move cursor to the title line for easy editing
     (goto-char (point-min))
-    (search-forward "#+TITLE: " nil t)))
+    (search-forward "#+TITLE: " nil t)
+    (forward-char 8)))
 
 (defun ox-reveal-layouts-insert-side-by-side (&optional args)
   "Insert a side-by-side layout.  Asks for Image+Caption pairs sequentially.
@@ -370,10 +371,10 @@ Optional argument ARGS list of transient arguments."
 
 #+END_EXPORT\n"
       ;; Fill Top Data
-      path-top (if (and cap-top (not (string-empty-p cap-top))) 
+      path-top (if (and cap-top (not (string-empty-p cap-top)))
                    (format "<figcaption>%s</figcaption>" cap-top) "")
       ;; Fill Bottom Data
-      path-bot (if (and cap-bot (not (string-empty-p cap-bot))) 
+      path-bot (if (and cap-bot (not (string-empty-p cap-bot)))
                    (format "<figcaption>%s</figcaption>" cap-bot) "")
       ))))
 
