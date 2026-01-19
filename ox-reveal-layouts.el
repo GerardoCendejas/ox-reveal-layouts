@@ -204,8 +204,8 @@
   "Insert a layout with a centered image."
   (interactive)
   (let ((path (file-relative-name (read-file-name "Choose Image: "))))
-    (insert 
-     (format 
+    (insert
+     (format
       "#+BEGIN_EXPORT html
 
 <div class=\"orf-slide-container\">
@@ -219,8 +219,8 @@
   "Insert a layout with text on top and an image at the bottom."
   (interactive)
   (let ((path (file-relative-name (read-file-name "Choose Image (Bottom): "))))
-    (insert 
-     (format 
+    (insert
+     (format
       "#+BEGIN_EXPORT html
 
 <div class=\"orf-slide-container\">
@@ -332,25 +332,35 @@ Leaves cursor inside for manual typing or org-cite insertion."
 ;; Defining the transient menu for layout insertion
 (transient-define-prefix ox-reveal-layouts-menu ()
   "Main menu for layouts."
-  ;; Menu structure
-  ["Project Setup"
-   ("n" "New Presentation Template" ox-reveal-layouts-init-presentation)
-   ("m" "Inject CSS only" ox-reveal-layouts-setup-css)]
+  ;; -- MAIN HORIZONTAL BLOCK (These groups will appear side-by-side) --
+  [
+   ;; COLUMN 1: Setup & Extras (Grouped to save space)
+   ["Setup & Tools"
+    ("n" "New Template" ox-reveal-layouts-init-presentation)
+    ("m" "Inject CSS" ox-reveal-layouts-setup-css)]
 
-  ["Basic Layouts"
-   ("i" "Centered Image" ox-reveal-layouts-insert-image-centered)
-   ("v" "Text top | Image Bottom" ox-reveal-layouts-insert-text-top-img-bottom)
-   ("g" "Grid 4 Images" ox-reveal-layouts-insert-grid-4)
-   ("s" "Side-by-Side Images" ox-reveal-layouts-insert-side-by-side)
-   ("r" "Image Right, Text Left" ox-reveal-layouts-insert-split-text-left)
-   ("l" "Image Left, Text Right" ox-reveal-layouts-insert-split-text-right)]
+   ;; COLUMN 2: Pure Image Layouts
+   ["Image Layouts"
+    ("i" "Centered Image" ox-reveal-layouts-insert-image-centered)
+    ("g" "Grid 4 Images" ox-reveal-layouts-insert-grid-4)
+    ("s" "Side-by-Side" ox-reveal-layouts-insert-side-by-side)]
 
-  ["Extras"
-   ("p" "Pins" ox-reveal-layouts-pin-menu)
-   ("c" "Citation / Footer" org-reveal-layouts-insert-citation)]
-  
-  ["Help & Exit"
-   ("q" "Exit" transient-quit-one)])
+   ;; COLUMN 3: Text & Image Mixed
+   ["Text & Image"
+    ("v" "Text Top | Image Bottom" ox-reveal-layouts-insert-text-top-img-bottom)
+    ("r" "Text Left | Image Right" ox-reveal-layouts-insert-split-text-left)
+    ("l" "Image Left | Text Right" ox-reveal-layouts-insert-split-text-right)]
+
+   ;; COLUMN 4: Pins & Citations
+   ["Extra Info"
+    ("p" "Pins / Stickers" ox-reveal-layouts-pin-menu)
+    ("c" "Citation / Footer" org-reveal-layouts-insert-citation)]
+   ]
+
+  ;; -- BOTTOM BLOCK (Separate, for exiting) --
+  [""
+   ("q" "Exit" transient-quit-one)]
+  )
 
 (provide 'ox-reveal-layouts)
 
