@@ -49,7 +49,7 @@ Add this to your `init.el` or Emacs config file:
 ```elisp
 (use-package ox-reveal-layouts
   :load-path "~/.emacs.d/lisp/ox-reveal-layouts/" ; Point to where you cloned it
-  :requires (ox-reveal)
+  :after (ox-reveal)
   :bind (("C-c r l" . ox-reveal-layouts-menu))    ; Recommended binding
   :config
   ;; Optional: Set your local reveal.js path if you don't want to use the CDN
