@@ -95,6 +95,35 @@
     height: 100%;
 }
 
+/* For vertical layout */
+
+/* Vertical Layout */
+.orf-layout-vertical {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    align-items: center;
+}
+
+/* Text Styles */
+.orf-vertical-text {
+    width: 100%;
+    text-align: center; 
+    margin-bottom: 20px;
+    flex: 0 0 auto; /* No grow, no shrink */
+}
+
+/* Image Styles */
+.orf-vertical-img {
+    flex: 1 1 auto; /* Allow to grow and shrink */
+    min-height: 0;  /* Prevent overflow */
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+}
+
 /* Pin Styles */
 .orf-pin {
     position: absolute !important;
@@ -146,3 +175,5 @@
     color: #444 !important;
     text-decoration: underline;
 }
+
+

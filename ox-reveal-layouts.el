@@ -198,6 +198,52 @@
       path-a path-b path-c path-d)))
   )
 
+;;; Vertical Layouts
+
+(defun ox-reveal-layouts-insert-image-centered ()
+  "Insert a layout with a centered image."
+  (interactive)
+  (let ((path (file-relative-name (read-file-name "Choose Image: "))))
+    (insert 
+     (format 
+      "#+BEGIN_EXPORT html
+
+<div class=\"orf-slide-container\">
+  <img src=\"%s\" class=\"orf-img-fit\">
+</div>
+
+#+END_EXPORT\n"
+      path))))
+
+(defun ox-reveal-layouts-insert-text-top-img-bottom ()
+  "Insert a layout with text on top and an image at the bottom."
+  (interactive)
+  (let ((path (file-relative-name (read-file-name "Choose Image (Bottom): "))))
+    (insert 
+     (format 
+      "#+BEGIN_EXPORT html
+
+<div class=\"orf-slide-container\">
+  <div class=\"orf-layout-vertical\">
+    <div class=\"orf-vertical-text\">
+
+#+END_EXPORT
+
+# Write your text here
+
+#+BEGIN_EXPORT html
+
+    </div>
+    <div class=\"orf-vertical-img\">
+      <img src=\"%s\" class=\"orf-img-fit\">
+    </div>
+  </div>
+</div>
+
+#+END_EXPORT\n"
+      path))
+    (search-backward "# Write your text here")))
+
 ;;; Pin Insertion Functions
 
 (defun org-reveal-layouts-insert-pin-html (img-path class-or-style &optional is-custom)
@@ -289,10 +335,11 @@ Leaves cursor inside for manual typing or org-cite insertion."
   ;; Menu structure
   ["Project Setup"
    ("n" "New Presentation Template" ox-reveal-layouts-init-presentation)
-   ("i" "Inject CSS only" ox-reveal-layouts-setup-css)]
+   ("m" "Inject CSS only" ox-reveal-layouts-setup-css)]
 
-  ;; Add layout options here
-  ["Image Layouts"
+  ["Basic Layouts"
+   ("i" "Centered Image" ox-reveal-layouts-insert-image-centered)
+   ("v" "Text top | Image Bottom" ox-reveal-layouts-insert-text-top-img-bottom)
    ("g" "Grid 4 Images" ox-reveal-layouts-insert-grid-4)
    ("s" "Side-by-Side Images" ox-reveal-layouts-insert-side-by-side)
    ("r" "Image Right, Text Left" ox-reveal-layouts-insert-split-text-left)
