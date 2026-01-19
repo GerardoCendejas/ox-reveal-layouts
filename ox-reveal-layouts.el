@@ -327,33 +327,53 @@ Optional argument ARGS Tansient arguments."
         "")
       ))))
 
-(defun ox-reveal-layouts-insert-text-top-img-bottom ()
-  "Insert a layout with text on top and an image at the bottom."
-  (interactive)
-  (let ((path (file-relative-name (read-file-name "Choose Image (Bottom): "))))
+(defun ox-reveal-layouts-insert-text-top-img-bottom (&optional args)
+  "Insert a layout with text on top and an image at the bottom.
+Supports the --caption switch from the menu.
+Optional argument ARGS list of transient arguments."
+  (interactive (list (transient-args 'ox-reveal-layouts-menu)))
+  
+  (let* ((path (file-relative-name (read-file-name "Choose Image (Bottom): ")))
+         ;; Detect if the --caption flag is active
+         (use-caption (member "--caption" args))
+         ;; Ask for caption text if needed
+         (caption-text (if use-caption (read-string "Caption (Bottom): ") nil)))
+    
     (insert
      (format
       "#+BEGIN_EXPORT html
 
 <div class=\"orf-slide-container\">
   <div class=\"orf-layout-vertical\">
+    
     <div class=\"orf-vertical-text\">
 
 #+END_EXPORT
 
-# Write your text here
+# Write your text here...
 
 #+BEGIN_EXPORT html
 
     </div>
+
     <div class=\"orf-vertical-img\">
-      <img src=\"%s\" class=\"orf-img-fit\">
+      <figure class=\"orf-figure\">
+        <img src=\"%s\">
+        %s
+      </figure>
     </div>
+
   </div>
 </div>
 
 #+END_EXPORT\n"
-      path))
+      path
+      ;; Insert caption if provided
+      (if (and caption-text (not (string-empty-p caption-text)))
+          (format "<figcaption>%s</figcaption>" caption-text)
+        "")))
+    
+    ;; Move the cursor to the text area
     (search-backward "# Write your text here")))
 
 ;;; Pin Insertion Functions
