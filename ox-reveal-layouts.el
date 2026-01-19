@@ -355,6 +355,10 @@ Leaves cursor inside for manual typing or org-cite insertion."
    ["Extra Info"
     ("p" "Pins / Stickers" ox-reveal-layouts-pin-menu)
     ("c" "Citation / Footer" org-reveal-layouts-insert-citation)]
+
+   ;; COLUMN 5: Options
+   ["Options"
+   ("-c" "Add Caption to Image(s)" "--caption")]
    ]
 
   ;; -- BOTTOM BLOCK (Separate, for exiting) --

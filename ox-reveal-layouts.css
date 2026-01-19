@@ -124,6 +124,17 @@
     overflow: hidden;
 }
 
+/* Caption Styles for Images */
+.orf-img-caption {
+    font-size: 0.6em !important; /* Smaller font size */
+    color: #666;                 /* Gray color */
+    margin-top: 5px !important;  /* Space above caption */
+    font-style: italic;
+    text-align: center;
+    width: 100%;
+    display: block;
+}
+
 /* Pin Styles */
 .orf-pin {
     position: absolute !important;
