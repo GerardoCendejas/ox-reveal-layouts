@@ -191,7 +191,7 @@
     /* Text Styles */
     font-size: 0.5em !important; /* Smaller font size */
     color: #666;                 /* Gray color */
-    text-align: center;            /* Align left */
+    text-align: right;            /* Align right */
     
     /* Padding for readability */
     padding-left: 0px;
