@@ -14,7 +14,7 @@
 - [Customization](#customization)
 - [License](#license)
 
-**ox-reveal-layouts** is an extension for [ox-reveal](https://github.com/yjwen/ox-reveal) that adds a visual, interactive menu to insert complex 2D layouts (Grids, Split Columns, Floating Images) into your presentation.
+**ox-reveal-layouts** is an extension for [ox-reveal](https://github.com/yjwen/org-reveal.git) that adds a visual, interactive menu to insert complex 2D layouts (Grids, Split Columns, Floating Images) into your presentation.
 
 It solves the main pain point of creating slides in Org Mode: **positioning content side-by-side or in grids without writing messy HTML/CSS manually.**
 
