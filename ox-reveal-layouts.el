@@ -7,7 +7,7 @@
 ;; Maintainer: Gerardo Cendejas Mendoza <gc597@cornell.edu>
 ;; Version: 0.1.0
 ;; Package-Requires: ((emacs "27.1") (transient "0.3.0"))
-;; Keywords: ox-reveal, layouts, presentations
+;; Keywords: hypermedia, tools, reveal, slides
 ;; URL: https://github.com/GerardoCendejas/ox-reveal-layouts
 
 ;; License: GPL-3.0-or-later
@@ -142,8 +142,7 @@ Optional argument ARGS Transient arguments."
       
       path-b
       (if (and cap-b (not (string-empty-p cap-b)))
-          (format "<figcaption>%s</figcaption>" cap-b) "")
-      ))))
+          (format "<figcaption>%s</figcaption>" cap-b) "")))))
 
 (defun ox-reveal-layouts-insert-split-text-left (&optional args)
   "Insert a layout with text on the left and an image on the right.
@@ -296,8 +295,7 @@ Optional argument ARGS Transient arguments."
       path-a (if (and cap-a (not (string-empty-p cap-a))) (format "<figcaption>%s</figcaption>" cap-a) "")
       path-b (if (and cap-b (not (string-empty-p cap-b))) (format "<figcaption>%s</figcaption>" cap-b) "")
       path-c (if (and cap-c (not (string-empty-p cap-c))) (format "<figcaption>%s</figcaption>" cap-c) "")
-      path-d (if (and cap-d (not (string-empty-p cap-d))) (format "<figcaption>%s</figcaption>" cap-d) "")
-      ))))
+      path-d (if (and cap-d (not (string-empty-p cap-d))) (format "<figcaption>%s</figcaption>" cap-d) "")))))
 
 ;;; Vertical Layouts
 
@@ -326,8 +324,7 @@ Optional argument ARGS Tansient arguments."
       ;; Insert caption if provided
       (if caption-text
           (format "<figcaption>%s</figcaption>" caption-text)
-        "")
-      ))))
+        "")))))
 
 (defun ox-reveal-layouts-insert-stack (&optional args)
   "Insert a vertical stack layout (2 images) reusing the vertical layout CSS.
@@ -375,8 +372,7 @@ Optional argument ARGS list of transient arguments."
                    (format "<figcaption>%s</figcaption>" cap-top) "")
       ;; Fill Bottom Data
       path-bot (if (and cap-bot (not (string-empty-p cap-bot)))
-                   (format "<figcaption>%s</figcaption>" cap-bot) "")
-      ))))
+                   (format "<figcaption>%s</figcaption>" cap-bot) "")))))
 
 (defun ox-reveal-layouts-insert-text-top-img-bottom (&optional args)
   "Insert a layout with text on top and an image at the bottom.
@@ -549,8 +545,7 @@ Leaves cursor inside for manual typing or org-cite insertion."
 
   ;; -- BOTTOM BLOCK (Separate, for exiting) --
   [""
-   ("q" "Exit" transient-quit-one)]
-  )
+   ("q" "Exit" transient-quit-one)])
 
 (provide 'ox-reveal-layouts)
 
