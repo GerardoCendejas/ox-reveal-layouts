@@ -37,7 +37,7 @@ If you have ever tried to put 4 images in a grid or place text next to an image 
 
 **ox-reveal-layouts** is NOW  on MELPA. You can install it using M-x `package-install` or via `use-package`:
 
-```bash
+```elisp
 (use-package ox-reveal-layouts
   :ensure t
   :after (ox-reveal)
