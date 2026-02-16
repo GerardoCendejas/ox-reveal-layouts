@@ -2,6 +2,7 @@
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 ![Stage: Alpha](https://img.shields.io/badge/Stage-Alpha-orange.svg)
+[![MELPA](https://melpa.org/packages/ox-reveal-layouts-badge.svg)](https://melpa.org/#/ox-reveal-layouts)
 
 ![ox-reveal-layouts demo](media/main.gif)
 
@@ -32,9 +33,23 @@ If you have ever tried to put 4 images in a grid or place text next to an image 
 
 ## Installation
 
-### From Source
+### From MELPA, (recommended)
 
-**ox-reveal-layouts** is not yet on MELPA. You can install it by cloning the repo:
+**ox-reveal-layouts** is NOW  on MELPA. You can install it using M-x `package-install` or via `use-package`:
+
+```bash
+(use-package ox-reveal-layouts
+  :ensure t
+  :after (ox-reveal)
+  :bind (("C-c r l" . ox-reveal-layouts-menu))    ; Recommended binding
+  :config
+  ;; Optional: Set your local reveal.js path if you don't want to use the CDN
+  ;; (setq orl-reveal-root-path "file:///home/yourname/.emacs.d/reveal.js")
+  
+  (message "Ox-Reveal-Layouts loaded!"))
+```
+
+### From source (Manual)
 
 #### 1. Clone the repo
 
